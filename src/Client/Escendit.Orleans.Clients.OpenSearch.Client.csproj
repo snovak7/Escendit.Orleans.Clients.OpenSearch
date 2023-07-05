@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Description>OpenSearch Client for Orleans</Description>
+        <PackageTags>orleans;open;search;opensearch;client</PackageTags>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="OpenSearch.Client" Version="1.3.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Pack="true" PackagePath="" Include="README.md" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Common\Escendit.Orleans.Clients.OpenSearch.Common.csproj" />
+    </ItemGroup>
+</Project>
