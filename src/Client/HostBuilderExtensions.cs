@@ -18,6 +18,36 @@ public static partial class HostBuilderExtensions
     /// </summary>
     /// <param name="hostBuilder">The initial host builder.</param>
     /// <param name="name">The name.</param>
+    /// <param name="uri">The uri.</param>
+    /// <returns>The updated host builder.</returns>
+    public static IHostBuilder AddOpenSearchClient(
+        this IHostBuilder hostBuilder,
+        string name,
+        Uri uri)
+    {
+        ArgumentNullException.ThrowIfNull(hostBuilder);
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(uri);
+        return hostBuilder
+            .AddOpenSearchConnectionSettings(name, uri)
+            .ConfigureServices((_, services) =>
+            {
+                services
+                    .AddSingletonNamedService<IOpenSearchClient>(name, (serviceProvider, providerName) =>
+                    {
+                        var settings = serviceProvider
+                            .GetRequiredServiceByName<IConnectionSettingsValues>(providerName);
+
+                        return new OpenSearchClient(settings);
+                    });
+            });
+    }
+
+    /// <summary>
+    /// Add Open Search Client Low Level Client.
+    /// </summary>
+    /// <param name="hostBuilder">The initial host builder.</param>
+    /// <param name="name">The name.</param>
     /// <param name="settingsName">The connection settings name.</param>
     /// <returns>The updated host builder.</returns>
     public static IHostBuilder AddOpenSearchClient(
