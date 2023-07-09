@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Escendit.Orleans.Clients.Op
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Escendit.Orleans.Clients.OpenSearch.Client", "src\Client\Escendit.Orleans.Clients.OpenSearch.Client.csproj", "{E37892E0-6F2C-4270-BC52-2D3D09934779}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Escendit.Orleans.Clients.OpenSearch.Common.Tests", "test\Common\Escendit.Orleans.Clients.OpenSearch.Common.Tests.csproj", "{46E9DF69-89B2-45CE-A057-536A712A3D7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Escendit.Orleans.Clients.OpenSearch.Client.Tests", "test\Client\Escendit.Orleans.Clients.OpenSearch.Client.Tests.csproj", "{1295F32D-82DC-46CF-A876-BC9239AA7855}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Escendit.Orleans.Clients.OpenSearch.LowLevelClient.Tests", "test\LowLevelClient\Escendit.Orleans.Clients.OpenSearch.LowLevelClient.Tests.csproj", "{559EC51D-1344-4C11-B553-DC8A20B9D68F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +31,9 @@ Global
 		{9B5B4AEC-8967-468C-AF64-03D6EE0C82CF} = {BEFE2540-209F-443B-946C-742CB4046A74}
 		{1FA0FB2C-A135-4048-A203-535A249F9004} = {BEFE2540-209F-443B-946C-742CB4046A74}
 		{E37892E0-6F2C-4270-BC52-2D3D09934779} = {BEFE2540-209F-443B-946C-742CB4046A74}
+		{46E9DF69-89B2-45CE-A057-536A712A3D7A} = {576E587C-CEA8-4E60-948F-233310FAEB8D}
+		{1295F32D-82DC-46CF-A876-BC9239AA7855} = {576E587C-CEA8-4E60-948F-233310FAEB8D}
+		{559EC51D-1344-4C11-B553-DC8A20B9D68F} = {576E587C-CEA8-4E60-948F-233310FAEB8D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9B5B4AEC-8967-468C-AF64-03D6EE0C82CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,5 +48,17 @@ Global
 		{E37892E0-6F2C-4270-BC52-2D3D09934779}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E37892E0-6F2C-4270-BC52-2D3D09934779}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E37892E0-6F2C-4270-BC52-2D3D09934779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46E9DF69-89B2-45CE-A057-536A712A3D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46E9DF69-89B2-45CE-A057-536A712A3D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46E9DF69-89B2-45CE-A057-536A712A3D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46E9DF69-89B2-45CE-A057-536A712A3D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1295F32D-82DC-46CF-A876-BC9239AA7855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1295F32D-82DC-46CF-A876-BC9239AA7855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1295F32D-82DC-46CF-A876-BC9239AA7855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1295F32D-82DC-46CF-A876-BC9239AA7855}.Release|Any CPU.Build.0 = Release|Any CPU
+		{559EC51D-1344-4C11-B553-DC8A20B9D68F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559EC51D-1344-4C11-B553-DC8A20B9D68F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559EC51D-1344-4C11-B553-DC8A20B9D68F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559EC51D-1344-4C11-B553-DC8A20B9D68F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
