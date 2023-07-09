@@ -4,7 +4,7 @@
 namespace Microsoft.Extensions.Hosting;
 
 using DependencyInjection;
-using OpenSearch.Net;
+using Escendit.Orleans.Clients.OpenSearch.Common;
 using Options;
 
 /// <summary>
@@ -19,16 +19,16 @@ public static partial class HostBuilderExtensions
     /// <param name="name">The name.</param>
     /// <param name="configureOptions">The configure options.</param>
     /// <returns>The updated host builder.</returns>
-    public static IHostBuilder AddOpenSearchAuthenticationCredentials(
-        IHostBuilder hostBuilder,
+    public static IHostBuilder AddOpenSearchBasicAuthenticationOptions(
+        this IHostBuilder hostBuilder,
         string name,
-        Action<BasicAuthenticationCredentials> configureOptions)
+        Action<BasicAuthenticationOptions> configureOptions)
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(configureOptions);
         return hostBuilder
-            .AddOpenSearchAuthenticationCredentialsInternal(name, configureOptions);
+            .AddOpenSearchAuthenticationOptionsInternal(name, configureOptions);
     }
 
     /// <summary>
@@ -38,10 +38,10 @@ public static partial class HostBuilderExtensions
     /// <param name="name">The name.</param>
     /// <param name="configureOptions">The configure options.</param>
     /// <returns>The updated host builder.</returns>
-    public static IHostBuilder AddOpenSearchAuthenticationCredentials(
+    public static IHostBuilder AddOpenSearchBasicAuthenticationOptions(
         this IHostBuilder hostBuilder,
         string name,
-        Action<OptionsBuilder<BasicAuthenticationCredentials>> configureOptions)
+        Action<OptionsBuilder<BasicAuthenticationOptions>> configureOptions)
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
@@ -57,16 +57,16 @@ public static partial class HostBuilderExtensions
     /// <param name="name">The name.</param>
     /// <param name="configureOptions">The configure options.</param>
     /// <returns>The updated host builder.</returns>
-    public static IHostBuilder AddOpenSearchAuthenticationCredentials(
+    public static IHostBuilder AddOpenSearchApiKeyAuthenticationOptions(
         this IHostBuilder hostBuilder,
         string name,
-        Action<ApiKeyAuthenticationCredentials> configureOptions)
+        Action<ApiKeyAuthenticationOptions> configureOptions)
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(configureOptions);
         return hostBuilder
-            .AddOpenSearchAuthenticationCredentialsInternal(name, configureOptions);
+            .AddOpenSearchAuthenticationOptionsInternal(name, configureOptions);
     }
 
     /// <summary>
@@ -76,10 +76,10 @@ public static partial class HostBuilderExtensions
     /// <param name="name">The name.</param>
     /// <param name="configureOptions">The configure options.</param>
     /// <returns>The updated host builder.</returns>
-    public static IHostBuilder AddOpenSearchAuthenticationCredentials(
+    public static IHostBuilder AddOpenSearchApiKeyAuthenticationOptions(
         this IHostBuilder hostBuilder,
         string name,
-        Action<OptionsBuilder<ApiKeyAuthenticationCredentials>> configureOptions)
+        Action<OptionsBuilder<ApiKeyAuthenticationOptions>> configureOptions)
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
@@ -94,19 +94,19 @@ public static partial class HostBuilderExtensions
     /// <param name="hostBuilder">The initial host builder.</param>
     /// <param name="name">The name.</param>
     /// <param name="configSectionPath">The config section path.</param>
-    /// <typeparam name="TAuthenticationCredentials">The authentication credentials type.</typeparam>
+    /// <typeparam name="TAuthenticationOptions">The authentication credentials type.</typeparam>
     /// <returns>The updated host builder.</returns>
-    public static IHostBuilder AddOpenSearchAuthenticationCredentials<TAuthenticationCredentials>(
+    public static IHostBuilder AddOpenSearchAuthenticationCredentials<TAuthenticationOptions>(
         this IHostBuilder hostBuilder,
         string name,
         string configSectionPath)
-        where TAuthenticationCredentials : class, new()
+        where TAuthenticationOptions : class, new()
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(configSectionPath);
         return hostBuilder
-            .AddOpenSearchAuthenticationCredentialsInternal<TAuthenticationCredentials>(name, configSectionPath);
+            .AddOpenSearchAuthenticationCredentialsInternal<TAuthenticationOptions>(name, configSectionPath);
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public static partial class HostBuilderExtensions
     /// <param name="configureOptions">The configure options.</param>
     /// <typeparam name="TAuthenticationCredentials">The authentication credentials type.</typeparam>
     /// <returns>The updated host builder.</returns>
-    internal static IHostBuilder AddOpenSearchAuthenticationCredentialsInternal<TAuthenticationCredentials>(
+    internal static IHostBuilder AddOpenSearchAuthenticationOptionsInternal<TAuthenticationCredentials>(
         this IHostBuilder hostBuilder,
         string name,
         Action<TAuthenticationCredentials> configureOptions)
