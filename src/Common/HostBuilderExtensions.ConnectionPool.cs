@@ -4,6 +4,7 @@
 namespace Microsoft.Extensions.Hosting;
 
 using Configuration;
+using Escendit.Orleans.Clients.OpenSearch.Common;
 using OpenSearch.Net;
 using Orleans;
 using Orleans.Runtime;
@@ -25,19 +26,20 @@ public static partial class HostBuilderExtensions
         this IHostBuilder hostBuilder,
         string name,
         string cloudId,
-        Action<BasicAuthenticationCredentials> configureOptions)
+        Action<BasicAuthenticationOptions> configureOptions)
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
         return hostBuilder
-            .AddOpenSearchAuthenticationCredentialsInternal(name, configureOptions)
+            .AddOpenSearchAuthenticationOptionsInternal(name, configureOptions)
             .ConfigureServices((_, services) =>
             {
                 services
                     .AddSingletonNamedService<IConnectionPool>(name, (serviceProvider, providerName) =>
                     {
-                        var options = serviceProvider.GetOptionsByName<BasicAuthenticationCredentials>(name);
-                        return new CloudConnectionPool(providerName, options);
+                        var options = serviceProvider.GetOptionsByName<BasicAuthenticationOptions>(providerName);
+                        var credentials = new BasicAuthenticationCredentials(options.Username, options.Password);
+                        return new CloudConnectionPool(cloudId, credentials);
                     });
             });
     }
@@ -54,19 +56,20 @@ public static partial class HostBuilderExtensions
         this IHostBuilder hostBuilder,
         string name,
         string cloudId,
-        Action<ApiKeyAuthenticationCredentials> configureOptions)
+        Action<ApiKeyAuthenticationOptions> configureOptions)
     {
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
         return hostBuilder
-            .AddOpenSearchAuthenticationCredentialsInternal(name, configureOptions)
+            .AddOpenSearchAuthenticationOptionsInternal(name, configureOptions)
             .ConfigureServices((_, services) =>
             {
                 services
                     .AddSingletonNamedService<IConnectionPool>(name, (serviceProvider, providerName) =>
                     {
-                        var options = serviceProvider.GetOptionsByName<ApiKeyAuthenticationCredentials>(name);
-                        return new CloudConnectionPool(providerName, options);
+                        var options = serviceProvider.GetOptionsByName<ApiKeyAuthenticationOptions>(providerName);
+                        var credentials = new ApiKeyAuthenticationCredentials(options.Base64EncodedApiKey);
+                        return new CloudConnectionPool(cloudId, credentials);
                     });
             });
     }
@@ -115,7 +118,9 @@ public static partial class HostBuilderExtensions
             {
                 var uris = context
                     .Configuration
-                    .GetValue<IEnumerable<Uri>>(configSectionPath);
+                    .GetSection(configSectionPath)
+                    .GetChildren()
+                    .Select(s => s.Get<Uri>());
 
                 services
                     .AddSingletonNamedService<IConnectionPool>(name, (_, _) =>
@@ -165,7 +170,12 @@ public static partial class HostBuilderExtensions
         return hostBuilder
             .ConfigureServices((context, services) =>
             {
-                var uris = context.Configuration.GetValue<IEnumerable<Uri>>(configSectionPath);
+                var uris = context
+                    .Configuration
+                    .GetRequiredSection(configSectionPath)
+                    .GetChildren()
+                    .Select(s => s.Get<Uri>());
+
                 services
                     .AddSingletonNamedService<IConnectionPool>(name, (_, _) =>
                         new StaticConnectionPool(uris));
@@ -214,7 +224,12 @@ public static partial class HostBuilderExtensions
         return hostBuilder
             .ConfigureServices((context, services) =>
             {
-                var uris = context.Configuration.GetValue<IEnumerable<Uri>>(configSectionPath);
+                var uris = context
+                    .Configuration
+                    .GetRequiredSection(configSectionPath)
+                    .GetChildren()
+                    .Select(s => s.Get<Uri>());
+
                 services
                     .AddSingletonNamedService<IConnectionPool>(name, (_, _) =>
                         new StickyConnectionPool(uris));
@@ -263,7 +278,11 @@ public static partial class HostBuilderExtensions
         return hostBuilder
             .ConfigureServices((context, services) =>
             {
-                var uri = context.Configuration.GetValue<Uri>(configSectionPath);
+                var uri = context
+                    .Configuration
+                    .GetRequiredSection(configSectionPath)
+                    .Get<Uri>();
+
                 services
                     .AddSingletonNamedService<IConnectionPool>(name, (_, _) =>
                         new SingleNodeConnectionPool(uri));
@@ -320,7 +339,9 @@ public static partial class HostBuilderExtensions
             {
                 var uris = context
                     .Configuration
-                    .GetValue<IEnumerable<Uri>>(configSectionPath);
+                    .GetRequiredSection(configSectionPath)
+                    .GetChildren()
+                    .Select(s => s.Get<Uri>());
 
                 services
                     .AddSingletonNamedService<IConnectionPool>(name, (_, _) =>
