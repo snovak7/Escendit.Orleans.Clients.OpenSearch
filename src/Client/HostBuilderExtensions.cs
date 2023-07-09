@@ -14,7 +14,7 @@ using Orleans.Runtime;
 public static partial class HostBuilderExtensions
 {
     /// <summary>
-    /// Add Open Search Client Low Level Client.
+    /// Add Open Search Client.
     /// </summary>
     /// <param name="hostBuilder">The initial host builder.</param>
     /// <param name="name">The name.</param>
@@ -44,7 +44,7 @@ public static partial class HostBuilderExtensions
     }
 
     /// <summary>
-    /// Add Open Search Client Low Level Client.
+    /// Add Open Search Client.
     /// </summary>
     /// <param name="hostBuilder">The initial host builder.</param>
     /// <param name="name">The name.</param>
