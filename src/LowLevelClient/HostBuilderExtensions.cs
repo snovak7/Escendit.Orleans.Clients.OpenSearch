@@ -14,6 +14,35 @@ using Orleans.Runtime;
 public static partial class HostBuilderExtensions
 {
     /// <summary>
+    /// Add Open Search Low Level Client.
+    /// </summary>
+    /// <param name="hostBuilder">The initial host builder.</param>
+    /// <param name="name">The name.</param>
+    /// <param name="uri">The uri.</param>
+    /// <returns>The updated host builder.</returns>
+    public static IHostBuilder AddOpenSearchLowLevelClient(
+        this IHostBuilder hostBuilder,
+        string name,
+        Uri uri)
+    {
+        ArgumentNullException.ThrowIfNull(hostBuilder);
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(uri);
+        return hostBuilder
+            .AddOpenSearchConnectionSettings(name, uri)
+            .ConfigureServices((_, services) =>
+            {
+                services
+                    .AddSingletonNamedService<IOpenSearchLowLevelClient>(name, (serviceProvider, providerName) =>
+                    {
+                        var settings = serviceProvider
+                            .GetRequiredServiceByName<IConnectionConfigurationValues>(providerName);
+                        return new OpenSearchLowLevelClient(settings);
+                    });
+            });
+    }
+
+    /// <summary>
     /// Add Open Search Client Low Level Client.
     /// </summary>
     /// <param name="hostBuilder">The initial host builder.</param>
@@ -28,7 +57,7 @@ public static partial class HostBuilderExtensions
         ArgumentNullException.ThrowIfNull(hostBuilder);
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(settingsName);
-        hostBuilder
+        return hostBuilder
             .ConfigureServices((_, services) =>
             {
                 services
@@ -36,10 +65,8 @@ public static partial class HostBuilderExtensions
                     {
                         var settings = serviceProvider
                                 .GetRequiredServiceByName<IConnectionConfigurationValues>(settingsName);
-
                         return new OpenSearchLowLevelClient(settings);
                     });
             });
-        return hostBuilder;
     }
 }
