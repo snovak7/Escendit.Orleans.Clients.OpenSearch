@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Microsoft.Orleans.Core" Version="7.1.2" />
-    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="7.1.2" />
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="7.2.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Common\Escendit.Orleans.Clients.OpenSearch.Common.csproj" />
